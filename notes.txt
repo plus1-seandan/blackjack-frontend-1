@@ -1,0 +1,32 @@
+//game flow
+
+a. start game #startGame
+- creates gameId
+
+b. bet
+- in the user model, there is a column called cash.
+- UI bunch of chips, or input a number
+
+deal cards
+- 1) deal 2 cards to dealer deal(-1)
+- 2) deal 2 to yourself deal(123)
+deal(playerId)
+#me -> 123
+#dealer -> -1
+
+for the dealer -> only 1 cards should be shown at first
+
+c1) double down
+- 1) double the amount of initial bet. doubleDown(gameId, playerId)
+- 2) hit once. hit(gameId, playerId) - need to check this logic
+
+c2) hit
+- 1) draw card
+
+c3) stand
+- 1) run dealer logic
+- 2) returns dealers hand and points
+
+d)settle
+- 1) it updates game status -> win lose draw
+- 2) it paysout blackjack1 1.5x
