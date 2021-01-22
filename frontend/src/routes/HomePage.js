@@ -1,6 +1,8 @@
 import React from 'react';
 import { GridItem, Grid } from '@chakra-ui/react';
 import Header from '../components/Header';
+import MyInfo from '../components/MyInfo';
+import Leaderboard from '../components/Leaderboard';
 
 const HomePage = () => {
   return (
@@ -22,19 +24,19 @@ const HomePage = () => {
         rowStart={2}
         rowEnd={13}
         colStart={1}
-        colEnd={4}
+        colEnd={3}
         bg="#FEFCBF"
       >
-        MY INFO
+        <MyInfo />
       </GridItem>
       <GridItem
         rowStart={2}
         rowEnd={12}
-        colStart={4}
+        colStart={3}
         colEnd={13}
         bg="#B2F5EA"
       >
-        LEADERBOARD
+        <Leaderboard />
       </GridItem>
       <GridItem
         rowStart={12}
