@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Header from '../components/Header.js';
-import Game from '../components/Game.jsx';
+import Game from '../components/Game.js';
 import { Box } from '@chakra-ui/react';
 
 function GamePage() {

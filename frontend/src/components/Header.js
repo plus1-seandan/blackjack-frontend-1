@@ -1,6 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Flex, Text, Button, Stack } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Text,
+  Button,
+  Stack,
+  Image,
+  Center,
+} from '@chakra-ui/react';
 
 const MenuItems = (props) => {
   const { children, isLast, to = '/', ...rest } = props;
@@ -19,21 +27,22 @@ const MenuItems = (props) => {
 const Header = (props) => {
   return (
     <Flex
-      as="nav"
-      align="center"
       justify="flex-end"
       wrap="wrap"
       w="100%"
       p={8}
-      bg={[
-        'primary.500',
-        'primary.500',
-        'transparent',
-        'transparent',
-      ]}
+      bg="#68D391"
       color={['white', 'white', 'primary.700', 'primary.700']}
-      {...props}
+      border="solid"
     >
+      <Box position="relative" right="35%">
+        <Image
+          boxSize="120px"
+          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1151732/poker_logo2.png"
+          alt="Poker Logo"
+          id="poker"
+        ></Image>
+      </Box>
       <Flex
         align={['center', 'center', 'center', 'center']}
         justify={['center', 'space-between', 'flex-end', 'flex-end']}

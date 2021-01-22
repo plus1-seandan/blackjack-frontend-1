@@ -50,7 +50,7 @@ class Login extends React.Component {
     );
     console.log({ token: response.data.token });
     localStorage.setItem('token', response.data.token);
-    this.props.history.push('/game');
+    this.props.history.push('/home');
     //reset state
     this.setState({
       email: '',
