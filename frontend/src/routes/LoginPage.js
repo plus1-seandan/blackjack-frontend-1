@@ -1,15 +1,14 @@
 import React from 'react';
-
+import Login from '../components/Login.js';
 import Header from '../components/Header.js';
-import Register from '../components/Register.js';
 import Wrapper from '../components/Wrapper.js';
 
-function RegisterPage() {
+function LoginPage() {
   return (
     <Wrapper>
-      <Register />
+      <Login />
     </Wrapper>
   );
 }
 
-export default RegisterPage;
+export default LoginPage;
