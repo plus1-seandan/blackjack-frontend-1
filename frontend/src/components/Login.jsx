@@ -3,6 +3,7 @@ import {Link, useHistory} from 'react-router-dom';
 import axios from 'axios';
 // import history from '../history';
 import {withRouter} from 'react-router-dom';
+import { Box, Button, FormControl, FormHelperText, FormLabel, Heading, Input, Text } from '@chakra-ui/react';
 
 class Login extends React.Component {
   constructor(props) {
@@ -41,35 +42,26 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
-        <p>Login</p>
-        <form>
-          <label>
-            Email:
-            <input
-              type="text"
-              onChange={(event) =>
+      <Box>
+        <form onSubmit={this.handleClick}>
+          <FormControl id="email">
+            <FormLabel>Email address</FormLabel>
+            <Input type="email" onChange={(event) =>
                 this.setState({ email: event.target.value })
-              }
-            />
-          </label>
-          <label>
-            Password:
-            <input
-              type="password"
-              onChange={(event) =>
+              }/>
+          </FormControl>
+            <FormControl id="password">
+            <FormLabel>Password</FormLabel>
+            <Input type="password"  onChange={(event) =>
                 this.setState({ password: event.target.value })
-              }
-            />
-          </label>
-          <button type="submit" onClick={this.handleClick}>
-            Submit
-          </button>
+              }/>
+          </FormControl>
+          <Button type="submit">Submit</Button>
         </form>
-        <h3>
+        <Text>
           <Link to="/register">Don't have an acccount?</Link>
-        </h3>
-      </div>
+        </Text>
+      </Box>
     );
   }
 }

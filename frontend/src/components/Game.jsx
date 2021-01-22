@@ -1,4 +1,6 @@
+import { Box } from '@chakra-ui/react';
 import React from 'react';
+import PlayingCard from './Card/PlayingCard';
 
 class Game extends React.Component {
   constructor(props) {
@@ -26,20 +28,24 @@ class Game extends React.Component {
 
   render () {
     return (
-      <div>
-        <p>{this.state.message}</p>
-        <div>
-          <button onClick={this.newGame}>New Game</button>
-        </div>
-        <div>
-          <p>Dealer's Hand {this.state.dealerHand}</p>
-          <p>Your Hand {this.state.playerHand}</p>
-        </div>
-        <div>
-          <button onClick={this.getCard}>Hit</button>
-          <button onClick={this.stand}>Stand</button>
-        </div>
-      </div>
+      <Box w="100px" h="100px">
+        <PlayingCard value={10} suit={"spades"}/>
+      </Box>
+
+      // <div>
+      //   <p>{this.state.message}</p>
+      //   <div>
+      //     <button onClick={this.newGame}>New Game</button>
+      //   </div>
+      //   <div>
+      //     <p>Dealer's Hand {this.state.dealerHand}</p>
+      //     <p>Your Hand {this.state.playerHand}</p>
+      //   </div>
+      //   <div>
+      //     <button onClick={this.getCard}>Hit</button>
+      //     <button onClick={this.stand}>Stand</button>
+      //   </div>
+      // </div>
     )
   }
 }
