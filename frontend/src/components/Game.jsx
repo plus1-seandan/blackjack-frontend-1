@@ -1,8 +1,8 @@
-import { Box, Grid, GridItem, Button, Text} from '@chakra-ui/react';
+import { Box, Grid, GridItem, Button, Text, HStack} from '@chakra-ui/react';
 import React from 'react';
 import axios from 'axios';
 import {getMe} from '../util/user.js';
-import { formatCard } from '../util/card.js';
+import { formatCard, formatDealerCard } from '../util/card.js';
 
 class Game extends React.Component {
   constructor(props) {
@@ -71,9 +71,11 @@ class Game extends React.Component {
         <Text>{this.state.gameId}</Text>
         DEALER
         <Box>
-          {this.state.dealerHand && this.state.dealerHand.map((card) => {
-             return formatCard(card)
+          <HStack>
+          {this.state.dealerHand && this.state.dealerHand.map((card, index) => {
+             return formatDealerCard(card, index)
           })}
+          </HStack>
         </Box>
       </GridItem>
       <GridItem rowStart={6} rowEnd={13} colStart={1} colEnd={13} bg="#2F855A">
@@ -86,11 +88,11 @@ class Game extends React.Component {
           <Button colorScheme="teal" size="sm">Hit</Button>
           <Button colorScheme="teal" size="sm">Stand</Button>
         </Box>
-        <Box>
+        <HStack>
           {this.state.playerHand && this.state.playerHand.map((card) => {
              return formatCard(card)
           })}
-        </Box>
+          </HStack>
       </GridItem>
     </Grid>
     )
