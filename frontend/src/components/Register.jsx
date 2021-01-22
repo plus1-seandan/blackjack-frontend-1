@@ -13,10 +13,7 @@ class Register extends React.Component {
     };
     this.handleClick = this.handleClick.bind(this);
   }
-//username
-//email
-//cash
-//password
+
 
   async handleClick(event) {
     event.preventDefault();
