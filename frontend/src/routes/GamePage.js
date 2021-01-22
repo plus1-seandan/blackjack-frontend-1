@@ -1,14 +1,16 @@
-import React from 'react'
+import React from 'react';
+
 import Header from '../components/Header.jsx';
 import Game from '../components/Game.jsx';
+import { Box } from '@chakra-ui/react';
 
 function GamePage() {
   return (
-    <div>
+    <Box>
       <Header />
       <Game />
-    </div>
-  )
+    </Box>
+  );
 }
 
-export default GamePage
+export default GamePage;
