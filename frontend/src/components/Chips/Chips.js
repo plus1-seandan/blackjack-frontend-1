@@ -8,23 +8,33 @@ class Chips extends React.Component {
         <div class="chips">
           <div
             class="pokerchip white"
-            onClick={this.props.changeColor}
+            onClick={() => {
+              this.props.handleBet(1);
+            }}
           ></div>
           <div
             class="pokerchip red"
-            onClick={this.props.changeColor}
+            onClick={() => {
+              this.props.handleBet(5);
+            }}
           ></div>
           <div
             class="pokerchip blue"
-            onClick={this.props.changeColor}
+            onClick={() => {
+              this.props.handleBet(10);
+            }}
           ></div>
           <div
             class="pokerchip green"
-            onClick={this.props.changeColor}
+            onClick={() => {
+              this.props.handleBet(25);
+            }}
           ></div>
           <div
             class="pokerchip black"
-            onClick={this.props.changeColor}
+            onClick={() => {
+              this.props.handleBet(100);
+            }}
           ></div>
         </div>
       </>

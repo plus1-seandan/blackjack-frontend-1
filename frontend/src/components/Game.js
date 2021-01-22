@@ -9,6 +9,8 @@ import {
   Image,
   Spacer,
   VStack,
+  Heading,
+  Wrap,
 } from '@chakra-ui/react';
 import React from 'react';
 import axios from 'axios';
@@ -26,11 +28,17 @@ class Game extends React.Component {
       dealerHand: null,
       playerHand: null,
       message: 'Start a New Game!',
+      bet: 0,
+      status: 'start',
     };
     this.newGame = this.newGame.bind(this);
-    this.getCard = this.getCard.bind(this);
     this.stand = this.stand.bind(this);
-    this.changeColor = this.changeColor.bind(this);
+    this.handleBet = this.handleBet.bind(this);
+    this.submitBet = this.submitBet.bind(this);
+    this.dealCards = this.dealCards.bind(this);
+    this.hit = this.hit.bind(this);
+    this.doubleDown = this.doubleDown.bind(this);
+    this.stand = this.stand.bind(this);
   }
 
   async componentDidMount() {
@@ -40,12 +48,11 @@ class Game extends React.Component {
     this.setState({ player: me });
   }
 
-  changeColor = () => {
-    console.log('trigger change color');
-  };
+  async handleBet(amount) {
+    this.setState({ bet: this.state.bet + amount });
+  }
 
   async newGame(event) {
-    event.preventDefault();
     //create a new game
     const { data } = await axios.post(
       'http://localhost:8081/games',
@@ -57,6 +64,31 @@ class Game extends React.Component {
       },
     );
     this.setState({ gameId: data });
+  }
+  async submitBet() {
+    await axios.patch(
+      `http://localhost:8081/games/bet?game=${this.state.gameId}&player=${this.state.player.id}&bet=${this.state.bet}`,
+    );
+  }
+  async doubleDown() {
+    const { data } = await axios.patch(
+      `http://localhost:8081/games/double?game=${
+        this.state.gameId
+      }&player=${this.state.player.id}&bet=${this.state.bet * 2}`,
+    );
+    this.handleBet(this.state.bet);
+    this.setState({ playerHand: data });
+
+    // const newBet = bet * 2;
+    // console.log(newBet);
+
+    // const cards = getCards(data.cards);
+
+    // setHand(cards);
+    // setMyPoints(data.points);
+  }
+
+  async dealCards() {
     //deal cards
     this.deal(this.state.player.id);
     //deal the players hand
@@ -65,22 +97,40 @@ class Game extends React.Component {
   }
 
   async deal(player) {
-    // { cards, game, player, points },
     const { data } = await axios.patch(
       `http://localhost:8081/games/deal?game=${this.state.gameId}&player=${player}`,
     );
     if (player == -1) {
-      this.setState({ dealerHand: data.cards });
+      this.setState({ dealerHand: data });
     } else {
-      this.setState({ playerHand: data.cards });
+      this.setState({ playerHand: data });
     }
   }
 
-  getCard() {
-    console.log(this.state.playerHand);
+  async hit() {
+    const { data } = await axios.patch(
+      `http://localhost:8081/games/hit?game=${this.state.gameId}&player=${this.state.player.id}`,
+    );
+    this.setState({ playerHand: data });
+    // const cards = getCards(data.cards);
+    // setHand(cards);
+    // setMyPoints(data.points);
   }
-  stand() {
-    console.log(this.state.playerHand);
+
+  async stand() {
+    this.setState({ status: 'stand' });
+    const { data } = await axios.patch(
+      `http://localhost:8081/games/stand?game=${this.state.gameId}&player=${this.state.player.id}`,
+    );
+    console.log(data);
+    this.setState({ dealerHand: data });
+
+    // setDealerHand(cards);
+    // setDealerPoints(data.points);
+    // const settle = await axios.patch(
+    //   `http://localhost:8081/games/settle?game=${gameId}&player=${PLAYER_ID}`,
+    // );
+    // console.log(settle);
   }
 
   render() {
@@ -99,6 +149,7 @@ class Game extends React.Component {
           borderBottom="solid"
           borderColor="tomato"
         >
+          <Text>{this.state.gameId}</Text>
           <Image
             borderRadius="full"
             border="solid"
@@ -112,8 +163,12 @@ class Game extends React.Component {
             <Center>
               <HStack>
                 {this.state.dealerHand &&
-                  this.state.dealerHand.map((card, index) => {
-                    return formatDealerCard(card, index);
+                  this.state.dealerHand.cards.map((card, index) => {
+                    return formatDealerCard(
+                      card,
+                      index,
+                      this.state.status,
+                    );
                   })}
               </HStack>
             </Center>
@@ -127,29 +182,74 @@ class Game extends React.Component {
           bg="#35654d"
         >
           <Box d="flex" justifyContent="center">
+            <Box position="absolute" left="0">
+              <VStack>
+                <Heading>Bet: ${this.state.bet}</Heading>
+                <Heading zIndex={1}>
+                  Points:{' '}
+                  {this.state.playerHand
+                    ? this.state.playerHand.points
+                    : 0}
+                </Heading>
+              </VStack>
+            </Box>
             <Button
               colorScheme="teal"
               size="sm"
               m="3"
               onClick={this.newGame}
             >
+              New Game
+            </Button>
+            <Button
+              colorScheme="teal"
+              size="sm"
+              m="3"
+              onClick={this.submitBet}
+            >
+              Bet
+            </Button>
+            <Button
+              colorScheme="teal"
+              size="sm"
+              m="3"
+              onClick={this.dealCards}
+            >
               Deal
             </Button>
-            <Button colorScheme="teal" size="sm" m="3">
+            <Button
+              colorScheme="teal"
+              size="sm"
+              m="3"
+              onClick={this.hit}
+            >
               Hit
             </Button>
-            <Button colorScheme="teal" size="sm" m="3">
+            <Button
+              colorScheme="teal"
+              size="sm"
+              m="3"
+              onClick={this.doubleDown}
+            >
+              Double
+            </Button>
+            <Button
+              colorScheme="teal"
+              size="sm"
+              m="3"
+              onClick={this.stand}
+            >
               Stand
             </Button>
           </Box>
           <Box d="flex" justifyContent="flex-end">
-            <Box position="relative" right="35%">
-              <HStack>
+            <Box pr="200px">
+              <Wrap>
                 {this.state.playerHand &&
-                  this.state.playerHand.map((card) => {
+                  this.state.playerHand.cards.map((card) => {
                     return formatCard(card);
                   })}
-              </HStack>
+              </Wrap>
             </Box>
             <VStack>
               <Image
@@ -164,7 +264,7 @@ class Game extends React.Component {
             </VStack>
           </Box>
           <Box pt="50px">
-            <Chips changeColor={this.changeColor} />
+            <Chips handleBet={this.handleBet} />
           </Box>
         </GridItem>
       </Grid>
