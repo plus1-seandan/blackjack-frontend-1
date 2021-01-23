@@ -17,19 +17,31 @@ import axios from 'axios';
 import { getMe, getDealer } from '../util/user.js';
 import { formatCard, formatDealerCard } from '../util/card.js';
 import Chips from './Chips/Chips.js';
+import {
+  displayBetButton,
+  displayNewGameButton,
+  displayDealButton,
+  displayHitButton,
+  displayDoubleButton,
+  displayStandButton,
+} from '../util/game.js';
+
+const initState = {
+  dealer: null,
+  player: null,
+  gameId: '',
+  dealerHand: null,
+  playerHand: null,
+  message: 'Start a New Game!',
+  bet: 0,
+  actions: [],
+};
 
 class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dealer: null,
-      player: null,
-      gameId: '',
-      dealerHand: null,
-      playerHand: null,
-      message: 'Start a New Game!',
-      bet: 0,
-      status: 'start',
+      ...initState,
     };
     this.newGame = this.newGame.bind(this);
     this.stand = this.stand.bind(this);
@@ -48,11 +60,30 @@ class Game extends React.Component {
     this.setState({ player: me });
   }
 
+  async resetState() {
+    await this.setState({
+      ...initState,
+    });
+    await this.setPlayerAndDealer();
+  }
+
+  async setPlayerAndDealer() {
+    const me = await getMe();
+    const dealer = await getDealer();
+    this.setState({ dealer: dealer });
+    this.setState({ player: me });
+  }
+
+  updateActions(action) {
+    this.setState({ actions: this.state.actions.concat(action) });
+  }
   async handleBet(amount) {
     this.setState({ bet: this.state.bet + amount });
   }
 
   async newGame(event) {
+    //reset state
+    this.resetState();
     //create a new game
     const { data } = await axios.post(
       'http://localhost:8081/games',
@@ -64,11 +95,13 @@ class Game extends React.Component {
       },
     );
     this.setState({ gameId: data });
+    this.updateActions('new game');
   }
   async submitBet() {
     await axios.patch(
       `http://localhost:8081/games/bet?game=${this.state.gameId}&player=${this.state.player.id}&bet=${this.state.bet}`,
     );
+    this.updateActions('bet');
   }
   async doubleDown() {
     const { data } = await axios.patch(
@@ -78,14 +111,7 @@ class Game extends React.Component {
     );
     this.handleBet(this.state.bet);
     this.setState({ playerHand: data });
-
-    // const newBet = bet * 2;
-    // console.log(newBet);
-
-    // const cards = getCards(data.cards);
-
-    // setHand(cards);
-    // setMyPoints(data.points);
+    this.updateActions('double');
   }
 
   async dealCards() {
@@ -94,6 +120,7 @@ class Game extends React.Component {
     //deal the players hand
     this.deal(-1);
     //deal the dealers hand
+    this.updateActions('deal');
   }
 
   async deal(player) {
@@ -112,9 +139,7 @@ class Game extends React.Component {
       `http://localhost:8081/games/hit?game=${this.state.gameId}&player=${this.state.player.id}`,
     );
     this.setState({ playerHand: data });
-    // const cards = getCards(data.cards);
-    // setHand(cards);
-    // setMyPoints(data.points);
+    this.updateActions('hit');
   }
 
   async stand() {
@@ -124,6 +149,7 @@ class Game extends React.Component {
     );
     console.log(data);
     this.setState({ dealerHand: data });
+    this.updateActions('stand');
 
     // setDealerHand(cards);
     // setDealerPoints(data.points);
@@ -198,6 +224,7 @@ class Game extends React.Component {
               size="sm"
               m="3"
               onClick={this.newGame}
+              isDisabled={displayNewGameButton(this.state.actions)}
             >
               New Game
             </Button>
@@ -206,6 +233,7 @@ class Game extends React.Component {
               size="sm"
               m="3"
               onClick={this.submitBet}
+              isDisabled={displayBetButton(this.state.actions)}
             >
               Bet
             </Button>
@@ -214,6 +242,7 @@ class Game extends React.Component {
               size="sm"
               m="3"
               onClick={this.dealCards}
+              isDisabled={displayDealButton(this.state.actions)}
             >
               Deal
             </Button>
@@ -222,6 +251,7 @@ class Game extends React.Component {
               size="sm"
               m="3"
               onClick={this.hit}
+              isDisabled={displayHitButton(this.state.actions)}
             >
               Hit
             </Button>
@@ -230,6 +260,7 @@ class Game extends React.Component {
               size="sm"
               m="3"
               onClick={this.doubleDown}
+              isDisabled={displayDoubleButton(this.state.actions)}
             >
               Double
             </Button>
@@ -238,6 +269,7 @@ class Game extends React.Component {
               size="sm"
               m="3"
               onClick={this.stand}
+              isDisabled={displayStandButton(this.state.actions)}
             >
               Stand
             </Button>
