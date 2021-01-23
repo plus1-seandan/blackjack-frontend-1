@@ -179,8 +179,6 @@ class Game extends React.Component {
     const { data: _data } = await axios.patch(
       `http://localhost:8081/games/settle?game=${this.state.gameId}&player=${this.state.player.id}`,
     );
-    // console.log(settle);
-    console.log(_data);
     this.setState({
       dealerHand: data,
       status: _data.status,

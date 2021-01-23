@@ -9,7 +9,6 @@ import {
 } from '../util/game';
 
 function GameButtons(props) {
-  console.log(props);
   return (
     <Box>
       <Button
