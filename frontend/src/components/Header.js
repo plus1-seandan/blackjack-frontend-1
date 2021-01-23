@@ -34,7 +34,7 @@ const Header = (props) => {
       wrap="wrap"
       w="100%"
       p={8}
-      bg="#68D391"
+      bg="#1A1423"
       color={['white', 'white', 'primary.700', 'primary.700']}
       border="solid"
     >
