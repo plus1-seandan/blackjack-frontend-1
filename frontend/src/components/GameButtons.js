@@ -13,7 +13,8 @@ function GameButtons(props) {
   return (
     <Box>
       <Button
-        colorScheme="teal"
+        bg="#b20000"
+        color="white"
         size="sm"
         m="3"
         onClick={props.newGame}
@@ -22,7 +23,8 @@ function GameButtons(props) {
         New Game
       </Button>
       <Button
-        colorScheme="teal"
+        bg="#b20000"
+        color="white"
         size="sm"
         m="3"
         onClick={props.submitBet}
@@ -31,7 +33,8 @@ function GameButtons(props) {
         Bet
       </Button>
       <Button
-        colorScheme="teal"
+        bg="#b20000"
+        color="white"
         size="sm"
         m="3"
         onClick={props.dealCards}
@@ -40,7 +43,8 @@ function GameButtons(props) {
         Deal
       </Button>
       <Button
-        colorScheme="teal"
+        bg="#b20000"
+        color="white"
         size="sm"
         m="3"
         onClick={props.hit}
@@ -49,7 +53,8 @@ function GameButtons(props) {
         Hit
       </Button>
       <Button
-        colorScheme="teal"
+        bg="#b20000"
+        color="white"
         size="sm"
         m="3"
         onClick={props.doubleDown}
@@ -58,7 +63,8 @@ function GameButtons(props) {
         Double
       </Button>
       <Button
-        colorScheme="teal"
+        bg="#b20000"
+        color="white"
         size="sm"
         m="3"
         onClick={props.stand}

@@ -1,8 +1,15 @@
 import React from 'react';
-import { GridItem, Grid } from '@chakra-ui/react';
+import {
+  GridItem,
+  Grid,
+  Center,
+  Button,
+  Box,
+} from '@chakra-ui/react';
 import Header from '../components/Header';
 import MyInfo from '../components/MyInfo';
-import Leaderboard from '../components/Leaderboard';
+import Leaderboard from '../components/Leaderboard/Leaderboard';
+import Footer from '../components/Footer';
 
 const HomePage = () => {
   return (
@@ -10,22 +17,25 @@ const HomePage = () => {
       h="100vh"
       templateRows="repeat(12, 1fr)"
       templateColumns="repeat(12, 1fr)"
+      bg="#8D89A6"
     >
       <GridItem
         rowStart={1}
         rowEnd={2}
         colStart={1}
         colEnd={13}
-        bg="#68D391"
+        boxShadow="dark-lg"
+        rounded="md"
+        bg="white"
       >
         <Header />
       </GridItem>
       <GridItem
         rowStart={2}
-        rowEnd={13}
+        rowEnd={12}
         colStart={1}
         colEnd={3}
-        bg="#FEFCBF"
+        bg="#EACDC2"
       >
         <MyInfo />
       </GridItem>
@@ -34,7 +44,12 @@ const HomePage = () => {
         rowEnd={12}
         colStart={3}
         colEnd={13}
-        bg="#B2F5EA"
+        boxShadow="dark-lg"
+        rounded="md"
+        bg="white"
+        mt="20px"
+        ml="50px"
+        mr="50px"
       >
         <Leaderboard />
       </GridItem>
@@ -43,8 +58,12 @@ const HomePage = () => {
         rowEnd={13}
         colStart={1}
         colEnd={13}
-        bg="tomato"
-      />
+        boxShadow="dark-lg"
+        mt="20px"
+        bg="#372549"
+      >
+        <Footer />
+      </GridItem>
     </Grid>
   );
 };

@@ -1,0 +1,53 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #372549;
+  height: 100px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+  text-transform: uppercase;
+}
+
+/*  Leaderboard  */
+.leaderboard {
+  padding: 20px 50px;
+}
+.leaderboard__header,
+.leaderboard__entry {
+  display: flex;
+  border-bottom: 1px solid #b75d69;
+}
+.leaderboard__header p,
+.leaderboard__entry p {
+  float: left;
+  text-align: left;
+  width: 25%;
+}
+.leaderboard__header {
+  font-weight: bold;
+  color: #774c60;
+  text-transform: uppercase;
+}
+.leaderboard__recentPoints,
+.leaderboard__totalPoints {
+  cursor: pointer;
+}
+
+ul {
+  padding-left: 0;
+}
+
+.underline {
+  text-decoration: underline;
+}

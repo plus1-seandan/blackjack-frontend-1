@@ -7,7 +7,10 @@ import {
   Button,
   Stack,
   Image,
+  HStack,
   Center,
+  Heading,
+  Spacer,
 } from '@chakra-ui/react';
 
 const MenuItems = (props) => {
@@ -34,17 +37,22 @@ const Header = (props) => {
       wrap="wrap"
       w="100%"
       p={8}
-      bg="#68D391"
+      bg="#1A1423"
       color={['white', 'white', 'primary.700', 'primary.700']}
       border="solid"
     >
       <Box position="relative" right="35%">
-        <Image
-          boxSize="120px"
-          src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1151732/poker_logo2.png"
-          alt="Poker Logo"
-          id="poker"
-        ></Image>
+        <HStack>
+          <Image
+            boxSize="120px"
+            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1151732/poker_logo2.png"
+            alt="Poker Logo"
+            id="poker"
+          ></Image>
+          <Box>
+            <Text fontSize="6xl">Blackjack</Text>
+          </Box>
+        </HStack>
       </Box>
       <Flex
         align={['center', 'center', 'center', 'center']}

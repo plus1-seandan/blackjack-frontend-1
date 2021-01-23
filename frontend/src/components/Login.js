@@ -36,10 +36,7 @@ class Login extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     //push to server
-    console.log({
-      email: this.state.email,
-      password: this.state.password,
-    });
+
     const response = await axios.post(
       `http://localhost:8081/login?email=${this.state.email}&password=${this.state.password}`,
       {
@@ -48,7 +45,6 @@ class Login extends React.Component {
         },
       },
     );
-    console.log({ token: response.data.token });
     localStorage.setItem('token', response.data.token);
     this.props.history.push('/home');
     //reset state

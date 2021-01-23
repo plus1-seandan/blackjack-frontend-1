@@ -20,3 +20,16 @@ export const getDealer = async () => {
   };
   return result;
 };
+
+export const getPlayerInfo = async () => {
+  const { data } = await axios.get(
+    'http://localhost:8081/users/infos',
+    {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    },
+  );
+  console.log(data);
+  return data;
+};
