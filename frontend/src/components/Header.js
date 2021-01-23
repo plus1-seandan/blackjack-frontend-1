@@ -62,7 +62,7 @@ const Header = (props) => {
             bg="#F56565"
             onClick={handleLogout}
           >
-            Logout
+            {localStorage.getItem('token') ? 'Logout' : 'Login'}
           </Button>
         </MenuItems>
       </Flex>

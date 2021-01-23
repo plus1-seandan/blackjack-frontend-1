@@ -1,5 +1,5 @@
-export const displayNewGameButton = (actions) => {
-  if (hasStand(actions)) {
+export const displayNewGameButton = (actions, busted) => {
+  if (hasStand(actions) || busted) {
     return false;
   }
   const result = actions.filter((action) => action === 'new game');
@@ -41,8 +41,9 @@ export const displayDealButton = (actions) => {
   return false;
 };
 
-export const displayHitButton = (actions) => {
-  if (hasStand(actions)) {
+export const displayHitButton = (actions, busted) => {
+  console.log({ busted });
+  if (hasStand(actions) || busted) {
     return true;
   }
   //dependent action hasnt been run
@@ -79,7 +80,10 @@ export const displayDoubleButton = (actions) => {
   return false;
 };
 
-export const displayStandButton = (actions) => {
+export const displayStandButton = (actions, busted) => {
+  if (busted) {
+    return true;
+  }
   //dependent action hasnt been run
   if (
     !displayBetButton(actions) ||
@@ -99,4 +103,13 @@ export const displayStandButton = (actions) => {
 export const hasStand = (actions) => {
   const result = actions.filter((action) => action === 'stand');
   return result.length > 0;
+};
+
+export const hasBet = (actions) => {
+  const result = actions.filter((action) => action === 'bet');
+  return result.length > 0;
+};
+
+export const isGameOver = (points) => {
+  return points >= 21;
 };
