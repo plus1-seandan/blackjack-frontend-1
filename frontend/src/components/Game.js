@@ -24,8 +24,11 @@ import {
   displayHitButton,
   displayDoubleButton,
   displayStandButton,
+  hasBet,
+  isGameOver,
 } from '../util/game.js';
 import GameStatusModal from '../GameStatusModal.js';
+import GameButtons from './GameButtons.js';
 
 const initState = {
   dealer: null,
@@ -38,6 +41,7 @@ const initState = {
   actions: [],
   payout: 0,
   status: null,
+  busted: false,
 };
 
 class Game extends React.Component {
@@ -82,6 +86,9 @@ class Game extends React.Component {
     this.setState({ actions: this.state.actions.concat(action) });
   }
   async handleBet(amount) {
+    if (hasBet(this.state.actions)) {
+      return;
+    }
     this.setState({ bet: this.state.bet + amount });
   }
 
@@ -116,8 +123,25 @@ class Game extends React.Component {
     this.handleBet(this.state.bet);
     this.setState({ playerHand: data });
     this.updateActions('double');
+    if (isGameOver(data.points)) {
+      this.handleGameOver(data.points);
+    }
   }
-
+  async handleGameOver(points) {
+    if (points > 21) {
+      const { data: _data } = await axios.patch(
+        `http://localhost:8081/games/settle?game=${this.state.gameId}&player=${this.state.player.id}`,
+      );
+      this.setState({
+        status: _data.status,
+        payout: _data.payout,
+        busted: true,
+      });
+      // this.setState({ status: 'lose', busted: true });
+    } else {
+      this.stand();
+    }
+  }
   async dealCards() {
     //deal cards
     this.deal(this.state.player.id);
@@ -126,9 +150,11 @@ class Game extends React.Component {
     //deal the dealers hand
     this.updateActions('deal');
   }
+
   onClose() {
     this.setState({ status: null });
   }
+
   async deal(player) {
     const { data } = await axios.patch(
       `http://localhost:8081/games/deal?game=${this.state.gameId}&player=${player}`,
@@ -137,6 +163,9 @@ class Game extends React.Component {
       this.setState({ dealerHand: data });
     } else {
       this.setState({ playerHand: data });
+      if (isGameOver(data.points)) {
+        this.handleGameOver(data.points);
+      }
     }
   }
 
@@ -146,6 +175,9 @@ class Game extends React.Component {
     );
     this.setState({ playerHand: data });
     this.updateActions('hit');
+    if (isGameOver(data.points)) {
+      this.handleGameOver(data.points);
+    }
   }
 
   async stand() {
@@ -203,7 +235,9 @@ class Game extends React.Component {
               <Heading zIndex={1}>
                 Points:{' '}
                 {this.state.dealerHand
-                  ? this.state.dealerHand.points
+                  ? this.state.dealerHand.points > 21
+                    ? 'Busted'
+                    : this.state.dealerHand.points
                   : 0}
               </Heading>
             </Box>
@@ -237,65 +271,23 @@ class Game extends React.Component {
                 <Heading zIndex={1}>
                   Points:{' '}
                   {this.state.playerHand
-                    ? this.state.playerHand.points
+                    ? this.state.playerHand.points > 21
+                      ? 'Busted'
+                      : this.state.playerHand.points
                     : 0}
                 </Heading>
               </VStack>
             </Box>
-            <Button
-              colorScheme="teal"
-              size="sm"
-              m="3"
-              onClick={this.newGame}
-              isDisabled={displayNewGameButton(this.state.actions)}
-            >
-              New Game
-            </Button>
-            <Button
-              colorScheme="teal"
-              size="sm"
-              m="3"
-              onClick={this.submitBet}
-              isDisabled={displayBetButton(this.state.actions)}
-            >
-              Bet
-            </Button>
-            <Button
-              colorScheme="teal"
-              size="sm"
-              m="3"
-              onClick={this.dealCards}
-              isDisabled={displayDealButton(this.state.actions)}
-            >
-              Deal
-            </Button>
-            <Button
-              colorScheme="teal"
-              size="sm"
-              m="3"
-              onClick={this.hit}
-              isDisabled={displayHitButton(this.state.actions)}
-            >
-              Hit
-            </Button>
-            <Button
-              colorScheme="teal"
-              size="sm"
-              m="3"
-              onClick={this.doubleDown}
-              isDisabled={displayDoubleButton(this.state.actions)}
-            >
-              Double
-            </Button>
-            <Button
-              colorScheme="teal"
-              size="sm"
-              m="3"
-              onClick={this.stand}
-              isDisabled={displayStandButton(this.state.actions)}
-            >
-              Stand
-            </Button>
+            <GameButtons
+              actions={this.state.actions}
+              busted={this.state.busted}
+              newGame={this.newGame}
+              stand={this.stand}
+              hit={this.hit}
+              submitBet={this.submitBet}
+              dealCards={this.dealCards}
+              doubleDown={this.doubleDown}
+            />
           </Box>
           <Box d="flex" justifyContent="flex-end">
             <Box pr="200px">
