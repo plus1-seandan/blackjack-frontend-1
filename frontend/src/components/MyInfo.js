@@ -1,6 +1,8 @@
-import { Box, Button, Heading, Text } from '@chakra-ui/react';
+import { Box, Button, Heading, Link, Text } from '@chakra-ui/react';
 import React from 'react';
+import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { getMe, getPlayerInfo } from '../util/user';
+import './Chips/Chips.scss';
 
 class MyInfo extends React.Component {
   constructor(props) {
@@ -47,8 +49,13 @@ class MyInfo extends React.Component {
         <Text>Push {this.state.push}</Text>
         <Text>Losses {this.state.loss}</Text>
         <Text>Payout {this.state.totalPayout}</Text>
-        <Box alignSelf="center" boxShadow="dark-lg" mt="100px">
-          <Button>Buy In!</Button>
+        <Box alignSelf="center" mt="100px">
+          <div class="pokerchip blue buyIn"></div>
+        </Box>
+        <Box alignSelf="center" mt="100px">
+          <Link as={RouterLink} to="/game">
+            <div class="pokerchip red play"></div>
+          </Link>
         </Box>
       </Box>
     );

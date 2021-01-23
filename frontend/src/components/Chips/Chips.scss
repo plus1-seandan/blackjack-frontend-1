@@ -275,6 +275,11 @@ a {
   background: #800000;
   color: #6c0000;
 }
+.play:after {
+  content: 'Play';
+  color: white;
+  background: #800000;
+}
 .blue {
   background-image: linear-gradient(
       0deg,
@@ -365,6 +370,11 @@ a {
   content: '10';
   background: #000099;
   color: #00016c;
+}
+.buyIn:after {
+  content: 'Buy';
+  background: #000099;
+  color: white;
 }
 .green {
   background-image: linear-gradient(

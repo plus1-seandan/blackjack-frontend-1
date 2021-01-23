@@ -25,12 +25,12 @@ class Register extends React.Component {
       email: '',
       username: '',
       password: '',
-      cash: 100,
+      cash: 0,
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  async handleClick(event) {
+  async handleSubmit(event) {
     event.preventDefault();
     const response = await axios.post(
       `http://localhost:8081/register?username=${this.state.username}&email=${this.state.email}&password=${this.state.password}&cash=${this.state.cash}`,
@@ -75,7 +75,6 @@ class Register extends React.Component {
               <FormControl id="username">
                 <FormLabel>Username</FormLabel>
                 <Input
-                  type="email"
                   onChange={(event) =>
                     this.setState({ username: event.target.value })
                   }
@@ -96,7 +95,7 @@ class Register extends React.Component {
               <Stack isInline justifyContent="space-between" mt={4}>
                 <Box>
                   <Link as={RouterLink} to="/">
-                    Don't have an acccount?
+                    Already have an account? Login!
                   </Link>
                 </Box>
               </Stack>

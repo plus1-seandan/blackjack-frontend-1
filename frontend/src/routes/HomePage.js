@@ -32,31 +32,12 @@ const HomePage = () => {
       </GridItem>
       <GridItem
         rowStart={2}
-        rowEnd={6}
-        colStart={1}
-        colEnd={3}
-        bg="#EACDC2"
-      >
-        <MyInfo />
-      </GridItem>
-      <GridItem
-        rowStart={6}
         rowEnd={12}
         colStart={1}
         colEnd={3}
         bg="#EACDC2"
       >
-        <Box
-          d="flex"
-          justifyContent="center"
-          alignItems="center"
-          h="100%"
-          bg="#774C60"
-          boxShadow="dark-lg"
-          mt="20px"
-        >
-          <Button>Play Now!</Button>
-        </Box>
+        <MyInfo />
       </GridItem>
       <GridItem
         rowStart={2}

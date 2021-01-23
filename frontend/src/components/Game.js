@@ -17,16 +17,7 @@ import axios from 'axios';
 import { getMe, getDealer } from '../util/user.js';
 import { formatCard, formatDealerCard } from '../util/card.js';
 import Chips from './Chips/Chips.js';
-import {
-  displayBetButton,
-  displayNewGameButton,
-  displayDealButton,
-  displayHitButton,
-  displayDoubleButton,
-  displayStandButton,
-  hasBet,
-  isGameOver,
-} from '../util/game.js';
+import { hasBet, isGameOver } from '../util/game.js';
 import GameStatusModal from '../GameStatusModal.js';
 import GameButtons from './GameButtons.js';
 
@@ -229,7 +220,7 @@ class Game extends React.Component {
             src={this.state.dealer?.image}
             alt="Dealer"
           />
-          <Text>Dealer: {this.state.dealer?.username}</Text>
+          <Text color="white">{this.state.dealer?.username}</Text>
           {this.state.status ? (
             <Box position="absolute" left="0">
               <Heading zIndex={1}>
@@ -307,7 +298,7 @@ class Game extends React.Component {
                 src={this.state.player?.image}
                 alt={this.state.player?.username}
               />
-              <Text>Player: {this.state.player?.username}</Text>
+              <Text color="white">{this.state.player?.username}</Text>
             </VStack>
           </Box>
           <Box pt="50px">
