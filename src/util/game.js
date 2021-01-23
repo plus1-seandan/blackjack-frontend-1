@@ -42,7 +42,6 @@ export const displayDealButton = (actions) => {
 };
 
 export const displayHitButton = (actions, busted) => {
-  console.log({ busted });
   if (hasStand(actions) || busted) {
     return true;
   }
