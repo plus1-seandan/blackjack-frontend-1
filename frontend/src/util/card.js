@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import PlayingCard from '../components/Card/PlayingCard';
 import { makeStyles } from '@material-ui/core';
+import { hasStand } from './game';
 
 export const formatCard = ({ card }) => {
   const cardArr = card.split(' ');
@@ -9,11 +10,11 @@ export const formatCard = ({ card }) => {
   return <PlayingCard value={value} suit={suit} />;
 };
 
-export const formatDealerCard = (card, idx, status) => {
+export const formatDealerCard = (card, idx, actions) => {
   const cardArr = card.card.split(' ');
   const value = cardArr[0];
   const suit = cardArr[1];
-  if (idx === 0 && status !== 'stand') {
+  if (idx === 0 && !hasStand(actions)) {
     return <FaceDownCard />;
   }
   return <PlayingCard value={value} suit={suit} />;

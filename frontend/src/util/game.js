@@ -96,7 +96,7 @@ export const displayStandButton = (actions) => {
   return false;
 };
 
-const hasStand = (actions) => {
+export const hasStand = (actions) => {
   const result = actions.filter((action) => action === 'stand');
   return result.length > 0;
 };

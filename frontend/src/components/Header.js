@@ -25,6 +25,9 @@ const MenuItems = (props) => {
 };
 
 const Header = (props) => {
+  const handleLogout = () => {
+    localStorage.clear();
+  };
   return (
     <Flex
       justify="flex-end"
@@ -57,6 +60,7 @@ const Header = (props) => {
             rounded="md"
             color={['primary.500', 'primary.500', 'white', 'white']}
             bg="#F56565"
+            onClick={handleLogout}
           >
             Logout
           </Button>
