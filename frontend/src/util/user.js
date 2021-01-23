@@ -8,3 +8,15 @@ export const getMe = async () => {
   });
   return data;
 };
+
+export const getDealer = async () => {
+  const { data } = await axios.get('https://randomuser.me/api/');
+  const dealer = data.results[0].name;
+  console.log(data.results[0]);
+  const result = {
+    image: data.results[0].picture.large,
+    id: -1,
+    username: `${dealer.first} ${dealer.last}`,
+  };
+  return result;
+};
