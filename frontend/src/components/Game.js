@@ -25,6 +25,7 @@ import {
   displayDoubleButton,
   displayStandButton,
 } from '../util/game.js';
+import GameStatusModal from '../GameStatusModal.js';
 
 const initState = {
   dealer: null,
@@ -35,6 +36,8 @@ const initState = {
   message: 'Start a New Game!',
   bet: 0,
   actions: [],
+  payout: 0,
+  status: null,
 };
 
 class Game extends React.Component {
@@ -51,6 +54,7 @@ class Game extends React.Component {
     this.hit = this.hit.bind(this);
     this.doubleDown = this.doubleDown.bind(this);
     this.stand = this.stand.bind(this);
+    this.onClose = this.onClose.bind(this);
   }
 
   async componentDidMount() {
@@ -122,7 +126,9 @@ class Game extends React.Component {
     //deal the dealers hand
     this.updateActions('deal');
   }
-
+  onClose() {
+    this.setState({ status: null });
+  }
   async deal(player) {
     const { data } = await axios.patch(
       `http://localhost:8081/games/deal?game=${this.state.gameId}&player=${player}`,
@@ -147,16 +153,17 @@ class Game extends React.Component {
     const { data } = await axios.patch(
       `http://localhost:8081/games/stand?game=${this.state.gameId}&player=${this.state.player.id}`,
     );
-    console.log(data);
-    this.setState({ dealerHand: data });
-    this.updateActions('stand');
-
-    // setDealerHand(cards);
-    // setDealerPoints(data.points);
-    // const settle = await axios.patch(
-    //   `http://localhost:8081/games/settle?game=${gameId}&player=${PLAYER_ID}`,
-    // );
+    const { data: _data } = await axios.patch(
+      `http://localhost:8081/games/settle?game=${this.state.gameId}&player=${this.state.player.id}`,
+    );
     // console.log(settle);
+    console.log(_data);
+    this.setState({
+      dealerHand: data,
+      status: _data.status,
+      payout: _data.payout,
+    });
+    this.updateActions('stand');
   }
 
   render() {
@@ -175,7 +182,13 @@ class Game extends React.Component {
           borderBottom="solid"
           borderColor="tomato"
         >
-          <Text>{this.state.gameId}</Text>
+          <GameStatusModal
+            payout={this.state.payout}
+            status={this.state.status}
+            newGame={this.newGame}
+            isOpen={this.state.status ? true : false}
+            onClose={this.onClose}
+          />
           <Image
             borderRadius="full"
             border="solid"
@@ -185,6 +198,16 @@ class Game extends React.Component {
             alt="Dealer"
           />
           <Text>Dealer: {this.state.dealer?.username}</Text>
+          {this.state.status ? (
+            <Box position="absolute" left="0">
+              <Heading zIndex={1}>
+                Points:{' '}
+                {this.state.dealerHand
+                  ? this.state.dealerHand.points
+                  : 0}
+              </Heading>
+            </Box>
+          ) : null}
           <Box>
             <Center>
               <HStack>
@@ -193,7 +216,7 @@ class Game extends React.Component {
                     return formatDealerCard(
                       card,
                       index,
-                      this.state.status,
+                      this.state.actions,
                     );
                   })}
               </HStack>
