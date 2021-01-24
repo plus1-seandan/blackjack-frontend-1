@@ -38,7 +38,7 @@ class Login extends React.Component {
     //push to server
 
     const response = await axios.post(
-      `http://localhost:8081/login?email=${this.state.email}&password=${this.state.password}`,
+      `http://${process.env.REACT_APP_SERVER_URL}/login?email=${this.state.email}&password=${this.state.password}`,
       {
         headers: {
           'Content-Type': 'application/json',

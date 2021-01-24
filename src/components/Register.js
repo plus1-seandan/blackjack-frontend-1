@@ -33,7 +33,7 @@ class Register extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     const response = await axios.post(
-      `http://localhost:8081/register?username=${this.state.username}&email=${this.state.email}&password=${this.state.password}&cash=${this.state.cash}`,
+      `http://${process.env.REACT_APP_SERVER_URL}/register?username=${this.state.username}&email=${this.state.email}&password=${this.state.password}&cash=${this.state.cash}`,
     );
 
     this.setState({
