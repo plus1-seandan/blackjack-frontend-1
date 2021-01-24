@@ -19,7 +19,7 @@ class Leaderboard extends Component {
 
   async sortByTotal() {
     const { data } = await axios.get(
-      'http://localhost:8081/users/leaderboard',
+      `http://${process.env.REACT_APP_SERVER_URL}/users/leaderboard`,
       {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('token'),

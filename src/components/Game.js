@@ -88,7 +88,7 @@ class Game extends React.Component {
     this.resetState();
     //create a new game
     const { data } = await axios.post(
-      'http://localhost:8081/games',
+      `http://${process.env.REACT_APP_SERVER_URL}/games`,
       {},
       {
         headers: {
@@ -101,13 +101,13 @@ class Game extends React.Component {
   }
   async submitBet() {
     await axios.patch(
-      `http://localhost:8081/games/bet?game=${this.state.gameId}&player=${this.state.player.id}&bet=${this.state.bet}`,
+      `http://${process.env.REACT_APP_SERVER_URL}/games/bet?game=${this.state.gameId}&player=${this.state.player.id}&bet=${this.state.bet}`,
     );
     this.updateActions('bet');
   }
   async doubleDown() {
     const { data } = await axios.patch(
-      `http://localhost:8081/games/double?game=${
+      `http://${process.env.REACT_APP_SERVER_URL}/games/double?game=${
         this.state.gameId
       }&player=${this.state.player.id}&bet=${this.state.bet * 2}`,
     );
@@ -121,7 +121,7 @@ class Game extends React.Component {
   async handleGameOver(points) {
     if (points > 21) {
       const { data: _data } = await axios.patch(
-        `http://localhost:8081/games/settle?game=${this.state.gameId}&player=${this.state.player.id}`,
+        `http://${process.env.REACT_APP_SERVER_URL}/games/settle?game=${this.state.gameId}&player=${this.state.player.id}`,
       );
       this.setState({
         status: _data.status,
@@ -148,7 +148,7 @@ class Game extends React.Component {
 
   async deal(player) {
     const { data } = await axios.patch(
-      `http://localhost:8081/games/deal?game=${this.state.gameId}&player=${player}`,
+      `http://${process.env.REACT_APP_SERVER_URL}/games/deal?game=${this.state.gameId}&player=${player}`,
     );
     if (player == -1) {
       this.setState({ dealerHand: data });
@@ -162,7 +162,7 @@ class Game extends React.Component {
 
   async hit() {
     const { data } = await axios.patch(
-      `http://localhost:8081/games/hit?game=${this.state.gameId}&player=${this.state.player.id}`,
+      `http://${process.env.REACT_APP_SERVER_URL}/games/hit?game=${this.state.gameId}&player=${this.state.player.id}`,
     );
     this.setState({ playerHand: data });
     this.updateActions('hit');
@@ -174,10 +174,10 @@ class Game extends React.Component {
   async stand() {
     this.setState({ status: 'stand' });
     const { data } = await axios.patch(
-      `http://localhost:8081/games/stand?game=${this.state.gameId}&player=${this.state.player.id}`,
+      `http://${process.env.REACT_APP_SERVER_URL}/games/stand?game=${this.state.gameId}&player=${this.state.player.id}`,
     );
     const { data: _data } = await axios.patch(
-      `http://localhost:8081/games/settle?game=${this.state.gameId}&player=${this.state.player.id}`,
+      `http://${process.env.REACT_APP_SERVER_URL}/games/settle?game=${this.state.gameId}&player=${this.state.player.id}`,
     );
     this.setState({
       dealerHand: data,

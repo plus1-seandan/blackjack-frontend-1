@@ -1,11 +1,14 @@
 import axios from 'axios';
 
 export const getMe = async () => {
-  const { data } = await axios.get('http://localhost:8081/users', {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
+  const { data } = await axios.get(
+    `http://${process.env.REACT_APP_SERVER_URL}/users`,
+    {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
     },
-  });
+  );
   return data;
 };
 
@@ -22,7 +25,7 @@ export const getDealer = async () => {
 
 export const getPlayerInfo = async () => {
   const { data } = await axios.get(
-    'http://localhost:8081/users/infos',
+    `http://${process.env.REACT_APP_SERVER_URL}/users/infos`,
     {
       headers: {
         Authorization: 'Bearer ' + localStorage.getItem('token'),
