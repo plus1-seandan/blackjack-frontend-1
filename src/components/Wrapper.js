@@ -8,7 +8,7 @@ export default function Wrapper(props) {
       width="full"
       align="center"
       justifyContent="center"
-      bgGradient="linear(to-t, green.200, pink.500)"
+      bgGradient="linear(to-t, #372549, #8D89A6)"
     >
       {props.children}
     </Flex>

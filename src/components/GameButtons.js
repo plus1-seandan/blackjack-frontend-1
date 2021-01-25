@@ -10,7 +10,12 @@ import {
 
 function GameButtons(props) {
   return (
-    <Box>
+    <Box
+      d="flex"
+      justifyContent="center"
+      alignItems="center"
+      h="100%"
+    >
       <Button
         bg="#b20000"
         color="white"

@@ -28,7 +28,9 @@ const FaceDownCard = () => {
 const useStyles = makeStyles({
   playingCard: {
     border: '1px solid',
+    'background-color': '#ccc',
     'border-color': 'black',
+    'background-repeat': 'repeat',
     'border-radius': '0.5em',
     '-moz-border-radius': '0.5em',
     '-webkit-border-radius': '0.5em',

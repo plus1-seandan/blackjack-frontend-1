@@ -14,15 +14,15 @@ import {
 } from '@chakra-ui/react';
 import React from 'react';
 import axios from 'axios';
-import { getMe, getDealer } from '../util/user.js';
+import { getMe } from '../util/user.js';
+import { timeout } from '../util/misc.js';
 import { formatCard, formatDealerCard } from '../util/card.js';
 import Chips from './Chips/Chips.js';
 import { hasBet, isGameOver } from '../util/game.js';
-import GameStatusModal from '../GameStatusModal.js';
+import GameStatusModal from './GameStatusModal.js';
 import GameButtons from './GameButtons.js';
 
 const initState = {
-  dealer: null,
   player: null,
   gameId: '',
   dealerHand: null,
@@ -54,8 +54,6 @@ class Game extends React.Component {
 
   async componentDidMount() {
     const me = await getMe();
-    const dealer = await getDealer();
-    this.setState({ dealer: dealer });
     this.setState({ player: me });
   }
 
@@ -63,13 +61,11 @@ class Game extends React.Component {
     await this.setState({
       ...initState,
     });
-    await this.setPlayerAndDealer();
+    await this.setPlayerInfo();
   }
 
-  async setPlayerAndDealer() {
+  async setPlayerInfo() {
     const me = await getMe();
-    const dealer = await getDealer();
-    this.setState({ dealer: dealer });
     this.setState({ player: me });
   }
 
@@ -190,118 +186,92 @@ class Game extends React.Component {
   render() {
     return (
       <Grid
-        h="100vh"
+        h="100%"
         templateRows="repeat(12, 1fr)"
         templateColumns="repeat(12, 1fr)"
       >
+        <GameStatusModal
+          payout={this.state.payout}
+          status={this.state.status}
+          newGame={this.newGame}
+          isOpen={this.state.status ? true : false}
+          onClose={this.onClose}
+        />
         <GridItem
           rowStart={1}
+          rowEnd={5}
+          colStart={1}
+          colEnd={3}
+          bg="#35654d"
+        >
+          <Dealer
+            dealer={this.state.dealer}
+            status={this.state.status}
+            hand={this.state.dealerHand}
+          />
+        </GridItem>
+        <GridItem
+          rowStart={1}
+          rowEnd={5}
+          colStart={3}
+          colEnd={13}
+          bg="#35654d"
+        >
+          <DealerHand
+            actions={this.state.actions}
+            hand={this.state.dealerHand}
+          />
+        </GridItem>
+        <GridItem
+          rowStart={5}
           rowEnd={6}
           colStart={1}
           colEnd={13}
           bg="#35654d"
-          borderBottom="solid"
+          borderTop="solid"
           borderColor="tomato"
         >
-          <GameStatusModal
-            payout={this.state.payout}
-            status={this.state.status}
+          <GameButtons
+            actions={this.state.actions}
+            busted={this.state.busted}
             newGame={this.newGame}
-            isOpen={this.state.status ? true : false}
-            onClose={this.onClose}
+            stand={this.stand}
+            hit={this.hit}
+            submitBet={this.submitBet}
+            dealCards={this.dealCards}
+            doubleDown={this.doubleDown}
           />
-          <Image
-            borderRadius="full"
-            border="solid"
-            borderColor="gray.200"
-            boxSize="150px"
-            src={this.state.dealer?.image}
-            alt="Dealer"
-          />
-          <Text color="white">{this.state.dealer?.username}</Text>
-          {this.state.status ? (
-            <Box position="absolute" left="0">
-              <Heading zIndex={1}>
-                Points:{' '}
-                {this.state.dealerHand
-                  ? this.state.dealerHand.points > 21
-                    ? 'Busted'
-                    : this.state.dealerHand.points
-                  : 0}
-              </Heading>
-            </Box>
-          ) : null}
-          <Box>
-            <Center>
-              <HStack>
-                {this.state.dealerHand &&
-                  this.state.dealerHand.cards.map((card, index) => {
-                    return formatDealerCard(
-                      card,
-                      index,
-                      this.state.actions,
-                    );
-                  })}
-              </HStack>
-            </Center>
-          </Box>
         </GridItem>
         <GridItem
           rowStart={6}
+          rowEnd={10}
+          colStart={11}
+          colEnd={13}
+          bg="#35654d"
+        >
+          <Player
+            player={this.state.player}
+            bet={this.state.bet}
+            hand={this.state.playerHand}
+          />
+        </GridItem>
+        <GridItem
+          rowStart={6}
+          rowEnd={10}
+          colStart={1}
+          colEnd={11}
+          bg="#35654d"
+        >
+          <PlayerHand hand={this.state.playerHand} />
+        </GridItem>
+        <GridItem
+          rowStart={10}
           rowEnd={13}
           colStart={1}
           colEnd={13}
           bg="#35654d"
         >
-          <Box d="flex" justifyContent="center">
-            <Box position="absolute" left="0">
-              <VStack>
-                <Heading>Bet: ${this.state.bet}</Heading>
-                <Heading zIndex={1}>
-                  Points:{' '}
-                  {this.state.playerHand
-                    ? this.state.playerHand.points > 21
-                      ? 'Busted'
-                      : this.state.playerHand.points
-                    : 0}
-                </Heading>
-              </VStack>
-            </Box>
-            <GameButtons
-              actions={this.state.actions}
-              busted={this.state.busted}
-              newGame={this.newGame}
-              stand={this.stand}
-              hit={this.hit}
-              submitBet={this.submitBet}
-              dealCards={this.dealCards}
-              doubleDown={this.doubleDown}
-            />
-          </Box>
-          <Box d="flex" justifyContent="flex-end">
-            <Box pr="200px">
-              <Wrap>
-                {this.state.playerHand &&
-                  this.state.playerHand.cards.map((card) => {
-                    return formatCard(card);
-                  })}
-              </Wrap>
-            </Box>
-            <VStack>
-              <Image
-                borderRadius="full"
-                boxSize="150px"
-                border="solid"
-                borderColor="gray.200"
-                src={this.state.player?.image}
-                alt={this.state.player?.username}
-              />
-              <Text color="white">{this.state.player?.username}</Text>
-            </VStack>
-          </Box>
-          <Box pt="50px">
-            <Chips handleBet={this.handleBet} />
-          </Box>
+          <Chips handleBet={this.handleBet} />
         </GridItem>
       </Grid>
     );
@@ -309,3 +279,76 @@ class Game extends React.Component {
 }
 
 export default Game;
+
+const PlayerHand = ({ hand }) => {
+  return (
+    <Box d="flex" h="100%" justifyContent="center">
+      <Center>
+        <HStack>
+          {hand &&
+            hand.cards.map((card) => {
+              return formatCard(card);
+            })}
+        </HStack>
+      </Center>
+    </Box>
+  );
+};
+
+const DealerHand = ({ actions, hand }) => {
+  return (
+    <Box d="flex" h="100%" justifyContent="center">
+      <Center>
+        <HStack>
+          {hand &&
+            hand.cards.map((card, index) => {
+              return formatDealerCard(card, index, actions);
+            })}
+        </HStack>
+      </Center>
+    </Box>
+  );
+};
+
+const Dealer = ({ status, hand }) => {
+  return (
+    <Box d="flex" h="100%" flexDirection="column" alignItems="center">
+      <Image
+        borderRadius="full"
+        border="solid"
+        borderColor="gray.200"
+        boxSize="150px"
+        src="https://www.biography.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cg_face%2Cq_auto:good%2Cw_300/MTE5NDg0MDU1MjIwNjg0MzAz/jack-black-9542484-1-402.jpg"
+        alt="Dealer"
+      />
+      <Text color="white">Jack Black</Text>
+      {status ? (
+        <Heading zIndex={1}>
+          Points:{' '}
+          {hand ? (hand.points > 21 ? 'Busted' : hand.points) : 0}
+        </Heading>
+      ) : null}
+    </Box>
+  );
+};
+
+const Player = ({ player, bet, hand }) => {
+  return (
+    <Box d="flex" flexDirection="column" h="100%" alignItems="center">
+      <Image
+        borderRadius="full"
+        boxSize="150px"
+        border="solid"
+        borderColor="gray.200"
+        src={player?.image}
+        alt={player?.username}
+      />
+      <Text color="white">{player?.username}</Text>
+      <Heading>Bet: ${bet}</Heading>
+      <Heading zIndex={1}>
+        Points:{' '}
+        {hand ? (hand.points > 21 ? 'Busted' : hand.points) : 0}
+      </Heading>
+    </Box>
+  );
+};
