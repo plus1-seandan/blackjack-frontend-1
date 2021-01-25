@@ -5,12 +5,8 @@ import {
   Flex,
   Text,
   Button,
-  Stack,
   Image,
   HStack,
-  Center,
-  Heading,
-  Spacer,
 } from '@chakra-ui/react';
 
 const MenuItems = (props) => {

@@ -2,25 +2,20 @@ import {
   Box,
   Grid,
   GridItem,
-  Button,
   Text,
   HStack,
   Center,
   Image,
-  Spacer,
-  VStack,
   Heading,
-  Wrap,
 } from '@chakra-ui/react';
 import React from 'react';
 import axios from 'axios';
 import { getMe } from '../util/user.js';
-import { timeout } from '../util/misc.js';
 import { formatCard, formatDealerCard } from '../util/card.js';
-import Chips from './Chips/Chips.js';
 import { hasBet, isGameOver } from '../util/game.js';
 import GameStatusModal from './GameStatusModal.js';
 import GameButtons from './GameButtons.js';
+import GameChips from './GameChips.js';
 
 const initState = {
   player: null,
@@ -72,8 +67,8 @@ class Game extends React.Component {
   updateActions(action) {
     this.setState({ actions: this.state.actions.concat(action) });
   }
-  async handleBet(amount) {
-    if (hasBet(this.state.actions)) {
+  async handleBet(amount, action) {
+    if (hasBet(this.state.actions) && !action) {
       return;
     }
     this.setState({ bet: this.state.bet + amount });
@@ -107,7 +102,7 @@ class Game extends React.Component {
         this.state.gameId
       }&player=${this.state.player.id}&bet=${this.state.bet * 2}`,
     );
-    this.handleBet(this.state.bet);
+    this.handleBet(this.state.bet, 'double');
     this.setState({ playerHand: data });
     this.updateActions('double');
     if (isGameOver(data.points)) {
@@ -271,7 +266,7 @@ class Game extends React.Component {
           colEnd={13}
           bg="#35654d"
         >
-          <Chips handleBet={this.handleBet} />
+          <GameChips handleBet={this.handleBet} />
         </GridItem>
       </Grid>
     );

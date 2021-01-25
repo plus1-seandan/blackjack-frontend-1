@@ -2,16 +2,13 @@ import {
   Button,
   Center,
   Heading,
-  useDisclosure,
 } from '@chakra-ui/react';
 import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   Box,
   Text,
 } from '@chakra-ui/react';
