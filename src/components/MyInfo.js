@@ -1,7 +1,6 @@
 import { Box, Text, Image, Center, VStack } from '@chakra-ui/react';
 import React from 'react';
 import { getMe, getPlayerInfo } from '../util/user';
-import './Chips/Chips.scss';
 import rank from '../images/laurel-crown.png';
 
 class MyInfo extends React.Component {
