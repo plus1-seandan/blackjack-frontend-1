@@ -4,9 +4,14 @@ Frontend of the blackjack game app.
 
 ## Tech Stack
 
-Tech Stack:
-React
-Chakra UI
+Tech Stack:<br/>
+React <br/>
+Chakra UI<br/>
+
+Deployed through:<br/>
+AWS<br/>
+Surge<br/>
+Docker
 
 ## Demo
 
