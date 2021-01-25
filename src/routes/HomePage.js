@@ -5,7 +5,9 @@ import {
   Center,
   Button,
   Box,
+  Link,
 } from '@chakra-ui/react';
+import { Link as RouterLink } from 'react-router-dom';
 import Header from '../components/Header';
 import MyInfo from '../components/MyInfo';
 import Leaderboard from '../components/Leaderboard/Leaderboard';
@@ -26,7 +28,6 @@ const HomePage = () => {
         colEnd={13}
         boxShadow="dark-lg"
         rounded="md"
-        bg="white"
       >
         <Header />
       </GridItem>
@@ -35,7 +36,8 @@ const HomePage = () => {
         rowEnd={12}
         colStart={1}
         colEnd={3}
-        bg="#EACDC2"
+        bg="#8D89A6"
+        mt="100px"
       >
         <MyInfo />
       </GridItem>
@@ -43,15 +45,39 @@ const HomePage = () => {
         rowStart={2}
         rowEnd={12}
         colStart={3}
-        colEnd={13}
+        colEnd={11}
         boxShadow="dark-lg"
         rounded="md"
         bg="white"
         mt="20px"
-        ml="50px"
-        mr="50px"
+        ml="20px"
+        mr="20px"
       >
         <Leaderboard />
+      </GridItem>
+      <GridItem
+        rowStart={2}
+        rowEnd={12}
+        colStart={11}
+        colEnd={13}
+        boxShadow="dark-lg"
+        rounded="md"
+        bg="black"
+        mt="20px"
+        mr="50px"
+        border="solid"
+        borderColor="white"
+      >
+        <Box d="flex" flexDirection="column">
+          <Box alignSelf="center" mt="100px">
+            <div class="pokerchip blue buyIn"></div>
+          </Box>
+          <Box alignSelf="center" mt="50px">
+            <Link as={RouterLink} to="/game">
+              <div class="pokerchip red play"></div>
+            </Link>
+          </Box>
+        </Box>
       </GridItem>
       <GridItem
         rowStart={12}

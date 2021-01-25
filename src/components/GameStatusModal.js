@@ -15,13 +15,15 @@ import {
   Box,
   Text,
 } from '@chakra-ui/react';
+import { IconButton } from '@chakra-ui/react';
+import { CloseIcon } from '@chakra-ui/icons';
 
 function GameStatusModal({
   isOpen,
   onClose,
   payout,
-  status,
   newGame,
+  status,
 }) {
   const displayMessage = () => {
     if (status === 'win') {
@@ -58,9 +60,17 @@ function GameStatusModal({
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalBody>{displayMessage()}</ModalBody>
+          <ModalBody>{displayMessage()} </ModalBody>
           <ModalFooter pt="50px">
-            <Button colorScheme="blue" mr={3} onClick={newGame}>
+            <IconButton onClick={() => onClose()}>
+              <CloseIcon />
+            </IconButton>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={newGame}
+              ml="20px"
+            >
               New Game
             </Button>
           </ModalFooter>

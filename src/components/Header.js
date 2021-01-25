@@ -36,7 +36,7 @@ const Header = (props) => {
       justify="flex-end"
       wrap="wrap"
       w="100%"
-      p={8}
+      p={3}
       bg="#1A1423"
       color={['white', 'white', 'primary.700', 'primary.700']}
       border="solid"
@@ -44,7 +44,7 @@ const Header = (props) => {
       <Box position="relative" right="35%">
         <HStack>
           <Image
-            boxSize="120px"
+            boxSize="70px"
             src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1151732/poker_logo2.png"
             alt="Poker Logo"
             id="poker"
@@ -79,20 +79,3 @@ const Header = (props) => {
 };
 
 export default Header;
-
-// import React from 'react';
-// import {Link} from 'react-router-dom';
-
-// const Header = () => {
-//   return (
-//     <header>
-//       <nav>
-//         <h2><Link to='/'>Home</Link></h2>
-//         <h2><Link to='/game'>Play</Link></h2>
-//         <h2><Link to='/profile'>Profile</Link></h2>
-//       </nav>
-//     </header>
-//   )
-// }
-
-// export default Header;
