@@ -9,10 +9,12 @@ import {
 } from 'react-router-dom';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
+import { createBrowserHistory } from 'history';
+
 import GamePage from './GamePage';
 import ProfilePage from './ProfilePage';
 import HomePage from './HomePage';
-import { createBrowserHistory } from 'history';
+import PrivateRoute from './PrivateRoute';
 
 const history = createBrowserHistory();
 
@@ -21,10 +23,10 @@ const Routes = () => {
     <BrowserRouter history={history}>
       <Switch>
         <Route path="/" exact component={LoginPage} />
-        <Route path="/home" exact component={HomePage} />
+        <PrivateRoute path="/home" exact component={HomePage} />
         <Route path="/register" exact component={RegisterPage} />
-        <Route path="/game" exact component={GamePage} />
-        <Route path="/profile" exact component={ProfilePage} />
+        <PrivateRoute path="/game" exact component={GamePage} />
+        <PrivateRoute path="/profile" exact component={ProfilePage} />
       </Switch>
     </BrowserRouter>
   );
