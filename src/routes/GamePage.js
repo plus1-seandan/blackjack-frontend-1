@@ -2,8 +2,7 @@ import React from 'react';
 
 import Header from '../components/Header.js';
 import Game from '../components/Game.js';
-import { Box, Grid, GridItem } from '@chakra-ui/react';
-import Footer from '../components/Footer.js';
+import { Grid, GridItem } from '@chakra-ui/react';
 
 function GamePage() {
   return (

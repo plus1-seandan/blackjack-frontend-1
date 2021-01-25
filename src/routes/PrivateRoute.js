@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import Login from '../components/Login';
 import { getMe } from '../util/user';
 
 const PrivateRoute = ({ path, component }) => {
@@ -19,7 +18,8 @@ const PrivateRoute = ({ path, component }) => {
       }
     };
     asyncFunc();
-  });
+  }, []);
+
   if (!mounted) {
     return <p>loading...</p>;
   }

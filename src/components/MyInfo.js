@@ -1,16 +1,5 @@
-import {
-  Box,
-  Button,
-  Heading,
-  Link,
-  Text,
-  Image,
-  Badge,
-  Center,
-  VStack,
-} from '@chakra-ui/react';
+import { Box, Text, Image, Center, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { Link as RouterLink, useHistory } from 'react-router-dom';
 import { getMe, getPlayerInfo } from '../util/user';
 import './Chips/Chips.scss';
 import rank from '../images/laurel-crown.png';
@@ -68,9 +57,9 @@ class MyInfo extends React.Component {
               {this.state.me?.username}
             </Text>
             <Image
-              borderColor="gray.200"
               boxSize="150px"
               border="solid"
+              borderColor="white"
               borderRadius="full"
               src={this.state.me?.image}
               alt="No image available"

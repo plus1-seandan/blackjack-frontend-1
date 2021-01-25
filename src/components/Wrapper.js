@@ -1,5 +1,4 @@
 import { Flex } from '@chakra-ui/react';
-import { Box } from '@material-ui/core';
 
 export default function Wrapper(props) {
   return (

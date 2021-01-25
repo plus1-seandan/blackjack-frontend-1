@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Router,
-  BrowserRouter,
-  Route,
-  Switch,
-  Redirect,
-  browserHistory,
-} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import { createBrowserHistory } from 'history';

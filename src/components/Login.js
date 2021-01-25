@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink, useHistory } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import axios from 'axios';
 // import history from '../history';
 import { withRouter } from 'react-router-dom';
@@ -8,20 +8,11 @@ import {
   Button,
   FormControl,
   Link,
-  FormHelperText,
   FormLabel,
   Heading,
   Input,
-  Text,
   Stack,
-  Checkbox,
-  Flex,
-  useColorMode,
-  IconButton,
 } from '@chakra-ui/react';
-import Wrapper from './Wrapper';
-
-const VARIANT_COLOR = 'teal';
 
 class Login extends React.Component {
   constructor(props) {

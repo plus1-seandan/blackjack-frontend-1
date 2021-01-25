@@ -1,16 +1,10 @@
 import React from 'react';
-import {
-  GridItem,
-  Grid,
-  Center,
-  Button,
-  Box,
-  Link,
-} from '@chakra-ui/react';
+import { GridItem, Grid, Box, Link } from '@chakra-ui/react';
 import { Link as RouterLink } from 'react-router-dom';
 import Header from '../components/Header';
 import MyInfo from '../components/MyInfo';
 import Leaderboard from '../components/Leaderboard/Leaderboard';
+import HomeSideComponent from '../components/HomeSideComponent';
 import Footer from '../components/Footer';
 
 const HomePage = () => {
@@ -68,16 +62,7 @@ const HomePage = () => {
         border="solid"
         borderColor="white"
       >
-        <Box d="flex" flexDirection="column">
-          <Box alignSelf="center" mt="100px">
-            <div class="pokerchip blue buyIn"></div>
-          </Box>
-          <Box alignSelf="center" mt="50px">
-            <Link as={RouterLink} to="/game">
-              <div class="pokerchip red play"></div>
-            </Link>
-          </Box>
-        </Box>
+        <HomeSideComponent />
       </GridItem>
       <GridItem
         rowStart={12}
